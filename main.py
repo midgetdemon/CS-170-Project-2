@@ -195,16 +195,15 @@ def backwardElimination(dataset, numinstances, numfeatures, accuracy):
   feature_to_remove = 0
  
   # copying over the full feature subset into new sets  
-  current_set_of_features = list(range(1,numfeatures))
-  final_set_of_features = list(range(1, numfeatures))
+  current_set_of_features = list(range(1,numfeatures+1))
+  final_set_of_features = list(range(1, numfeatures+1))
+
 
   # nested loops to search through feature treee
   for i in range (numfeatures):
-    #local variables use to continue search in case of local maxima 
+    # local variables use to continue search in case of local maxima 
     local_feature = 0
     local_accuracy = 0.0
-
-    feature_to_add_at_this_level = 0
 
     for k in range(1, numfeatures+1):
       if k in current_set_of_features:
@@ -226,16 +225,17 @@ def backwardElimination(dataset, numinstances, numfeatures, accuracy):
           local_feature = k
     
     # if removing a feature increases our end accuracy, remove it 
-    if feature_to_remove > 0:
+    if feature_to_remove >= 1 & feature_to_remove in current_set_of_features:
       current_set_of_features.remove(feature_to_remove)
       final_set_of_features.remove(feature_to_remove)
       print("Feature set ", current_set_of_features, " was best, accuracy is ", best_so_far_accuracy, "%." + '\n')
 
     # continue search in case of local maxima (since we are using greedy search)
     else:
-      print("(Warning, Accuracy has decreased! Continuing search in case of local maxima.)" + '\n')
-      current_set_of_features.remove(local_feature)
-      print("Feature set ", current_set_of_features, " was best, accuracy is ", best_so_far_accuracy, "%." + '\n')
+      if local_feature in current_set_of_features:
+        print("(Warning, Accuracy has decreased! Continuing search in case of local maxima.)" + '\n')
+        current_set_of_features.remove(local_feature)
+        print("Feature set ", current_set_of_features, " was best, accuracy is ", local_accuracy, "%." + '\n')
   
   print("Finished search!! The best feature subset is ", final_set_of_features, ", which has an accuracy of ", best_so_far_accuracy, "%." + '\n')
 
