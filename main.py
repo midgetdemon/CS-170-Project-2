@@ -179,7 +179,7 @@ def forwardSelection(dataset, numinstances, numfeatures):
     else:
       print("(Warning, Accuracy has decreased! Continuing search in case of local maxima.)" + '\n')
       current_set_of_features.append(local_feature)
-      print("Feature set ", current_set_of_features, " was best, accuracy is ", best_so_far_accuracy, "%." + '\n')
+      print("Feature set ", current_set_of_features, " was best, accuracy is ", local_accuracy, "%." + '\n')
 
   print("Finished search!! The best feature subset is ", final_set_of_features, ", which has an accuracy of ", best_so_far_accuracy, "%." + '\n')
 
@@ -197,7 +197,6 @@ def backwardElimination(dataset, numinstances, numfeatures, accuracy):
   # copying over the full feature subset into new sets  
   current_set_of_features = list(range(1,numfeatures+1))
   final_set_of_features = list(range(1, numfeatures+1))
-
 
   # nested loops to search through feature treee
   for i in range (numfeatures):
